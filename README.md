@@ -8,7 +8,7 @@ Pull everything from the repo!
 cd examples/default/src-gen/src
 javac ModelToJava.java
 ```
-###Generate the Java files
+Generate the Java files
 ```
 java ModelToJava "..\..\model\carModel.drawio" "..\..\src-gen-output"
 ```
