@@ -10,16 +10,17 @@ import java.util.regex.*;
 public class ModelToJava {
     static final Pattern LABEL = Pattern.compile("^\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*\\((1|N)\\)\\s*$");
 
-    private static class Edge{
-        String src, target, kind, label;
-
-        Edge(String s, String t, String k, String l) {
+    private static class Edge {
+        String id, src, target, kind, label;
+        Edge(String id, String s, String t, String k, String l) {
+            this.id = id;
             src = s;
             target = t;
             kind = k;
             label = l;
         }
     }
+
 
     public static String cleanText(String s) {
         if (s == null) {
@@ -43,10 +44,12 @@ public class ModelToJava {
             if (p.length() > 1) {
                 sb.append(p.substring(1));
             }
-            if (sb.length() == 0) {
-                return "Unnamed";
-            }
+
         }
+        if (sb.length() == 0) {
+            return "Unnamed";
+        }
+
         return sb.toString();
     }
     public static String matchArrow(String style){
@@ -59,6 +62,26 @@ public class ModelToJava {
         return "ASSOCIATION";
     }
 
+    private static String getEdgeLabel(String edgeId, NodeList cells) {
+        for (int i = 0; i < cells.getLength(); i++) {
+            Element c = (Element) cells.item(i);
+
+            if (!"1".equals(c.getAttribute("vertex"))) continue;
+            if (!edgeId.equals(c.getAttribute("parent"))) continue;
+
+            String style = c.getAttribute("style");
+            if (style == null || !style.contains("edgeLabel")) continue;
+
+            String value = cleanText(c.getAttribute("value"));
+            if (!value.isEmpty()) return value;
+        }
+        return "";
+    }
+
+
+
+
+
     public static void fail(String message){
         throw new RuntimeException(message);
     }
@@ -66,6 +89,7 @@ public class ModelToJava {
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
         if (args.length != 2) {
             System.out.println("Usage: java ModelToJava <input.drawio> <outputDir>");
+            return;
         }
         String xmlFile = args[0];
         String outDir = args[1];
@@ -87,7 +111,10 @@ public class ModelToJava {
             }
 
             String style = c.getAttribute("style");
-            if (style != null && style.contains("strokeColor = none")) {
+            if (style != null && style.contains("edgeLabel")) {
+                continue;
+            }
+            if (style != null && style.contains("strokeColor=none")) {
                 continue;
             }
 
@@ -113,8 +140,12 @@ public class ModelToJava {
             String target = e.getAttribute("target");
             String kind = matchArrow(e.getAttribute("style"));
             String label = cleanText(e.getAttribute("value"));
+            if (label.isEmpty()) {
+                label = getEdgeLabel(e.getAttribute("id"), cells);
+            }
+            String edgeId = e.getAttribute("id");
+            edges.add(new Edge(edgeId, src, target, kind, label));
 
-            edges.add(new Edge(src, target, kind, label));
         }
 
         for (Edge e : edges) {
@@ -124,7 +155,7 @@ public class ModelToJava {
             }
             if (e.kind.equals("ASSOCIATION")) {
                 if (e.label.isEmpty()) {
-                    System.out.println("Every association must have a label like: name (1) or name (N)");
+                    System.out.println("Missing association label on edgeId=" + e.id + " src=" + things.get(e.src) + " target=" + things.get(e.target));
                     return;
                 }
                 if (!LABEL.matcher(e.label).matches()) {
@@ -182,7 +213,7 @@ public class ModelToJava {
                         fieldLines.add("  private " + targetClass + " " + relationName + ";");
                     }else{ //mult = N
                         needList = true;
-                        fieldLines.add("  private List<" + targetClass + "> " + relationName + " = new ArrayList<>()");
+                        fieldLines.add("  private List<" + targetClass + "> " + relationName + " = new ArrayList<>();");
                     }
                 }
             }
@@ -200,7 +231,8 @@ public class ModelToJava {
             }
             sb.append("}\n");
             String results = sb.toString();
-            Files.writeString(Paths.get(outDir, className + ".java"), results);
+            Path outPath = Paths.get(outDir, className + ".java");
+            Files.write(outPath, results.getBytes());
         }
         System.out.println("Generated " + things.size() + " classes into " + outDir);
     }
