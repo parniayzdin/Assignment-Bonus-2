@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.3.8">
+  <diagram name="Page-1" id="KywRoairYohKT6XL2Gv5">
+    <mxGraphModel dx="873" dy="463" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fFvsyXkbnmonomeSaIIj-27" edge="1" parent="1" source="fFvsyXkbnmonomeSaIIj-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="fFvsyXkbnmonomeSaIIj-26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Person" vertex="1">
+          <mxGeometry height="60" width="120" x="235" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-4" edge="1" parent="1" source="fFvsyXkbnmonomeSaIIj-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;" target="fFvsyXkbnmonomeSaIIj-1" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-6" edge="1" parent="1" source="fFvsyXkbnmonomeSaIIj-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="fFvsyXkbnmonomeSaIIj-5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-35" edge="1" parent="1" source="fFvsyXkbnmonomeSaIIj-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="fFvsyXkbnmonomeSaIIj-34" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Driver" vertex="1">
+          <mxGeometry height="60" width="120" x="235" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-9" edge="1" parent="1" source="fFvsyXkbnmonomeSaIIj-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="fFvsyXkbnmonomeSaIIj-8" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="485" y="505" />
+              <mxPoint x="435" y="505" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-12" edge="1" parent="1" source="fFvsyXkbnmonomeSaIIj-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="525" y="505" />
+              <mxPoint x="575" y="505" />
+              <mxPoint x="575" y="540" />
+            </Array>
+            <mxPoint x="575" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-19" edge="1" parent="1" source="fFvsyXkbnmonomeSaIIj-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="fFvsyXkbnmonomeSaIIj-18" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="390" />
+              <mxPoint x="470" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-22" edge="1" parent="1" source="fFvsyXkbnmonomeSaIIj-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="fFvsyXkbnmonomeSaIIj-21" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-30" edge="1" parent="1" source="fFvsyXkbnmonomeSaIIj-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="fFvsyXkbnmonomeSaIIj-31">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="350" />
+            </Array>
+            <mxPoint x="600" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Car" vertex="1">
+          <mxGeometry height="60" width="120" x="435" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" value="drivers (1)" vertex="1">
+          <mxGeometry width="70" x="365" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Wheel" vertex="1">
+          <mxGeometry height="60" width="120" x="375" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" value="has (N)" vertex="1">
+          <mxGeometry width="70" x="424" y="498" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" value="has (1)" vertex="1">
+          <mxGeometry width="70" x="515" y="498" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-17" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Licence plate" vertex="1">
+          <mxGeometry height="60" width="120" x="515" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Engine" vertex="1">
+          <mxGeometry height="60" width="120" x="410" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-20" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;rotation=-90;" value="has (1)" vertex="1">
+          <mxGeometry width="70" x="424" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;span data-start=&quot;1853&quot; data-end=&quot;1880&quot;&gt;Maintenance Record&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="635" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-23" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" value="has (N)" vertex="1">
+          <mxGeometry width="70" x="556" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-26" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Insurance Policy" vertex="1">
+          <mxGeometry height="60" width="120" x="235" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-28" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;rotation=-90;" value="holds (1)" vertex="1">
+          <mxGeometry width="70" x="253" y="242" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-31" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Registration&amp;nbsp;" vertex="1">
+          <mxGeometry height="60" width="120" x="620" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-33" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" value="has (1)" vertex="1">
+          <mxGeometry width="70" x="540" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-34" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Trip&amp;nbsp;" vertex="1">
+          <mxGeometry height="60" width="120" x="40" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="fFvsyXkbnmonomeSaIIj-36" parent="1" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;" value="makes (N)" vertex="1">
+          <mxGeometry width="70" x="165" y="430" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
+
+
+
+Algorithm TranslateModelToJava(xmlFile):
+  doc <-- parseXML(xmlFile)
+
+  //Rectangles with name text 
+  things <-- empty map //(id --> className)
+  for each diagramElement c in doc:
+    if c.vertex == "1" AND text(c.value) is not empty AND isRectangle(c):
+      things[c.id] <-- cleanText(c.value)
+
+  //Arrows imply relationships (association or specialization)
+  edges <-- empty list
+  for each diagramElement e in doc:
+    if e.edge == "1":
+      src <-- e.source
+      target <-- e.target
+      label <-- findLabelNearArrow(e, doc)     
+      kind <-- classifyArrow(e.style)         
+      edges.add((src, target, kind, label))
+
+  //Validate Well-formedness rule 
+  for each (src, target, kind, label) in edges:
+    assert src in things AND target in things   
+
+    if kind == ASSOCIATION:
+	    assert label is not empty
+      assert label matches "name (1)" OR "name (N)"   //every association has exactly one name and one cardinality
+
+	//Specialization must not be circular
+	parent <-- empty map //(childId --> parentId)
+	for each (src, target, kind, label) in edges:
+		if kind == SPECIALIZATION:
+				parent[src] <-- target
+	for each nodeId in things:
+		current <-- nodeId
+		while current in parent:
+			current <-- parent[current]
+			if current == nodeId:
+				error "Specialization must not be circular"
+				
+  //Generate Java code using translational semantics
+  for each thing in things:
+    className <-- things[thing]
+    superClass <-- none
+    fields <-- empty list
+
+    //find superclass (if any)
+    for each (src, target, kind, label) in edges:
+      if kind == SPECIALIZATION AND src == thing:
+        superClass <-- things[target]
+
+    //create fields for associations
+    for each (src, target, kind, label) in edges:
+      if kind == ASSOCIATION AND src == thing:
+        (relationName, mult) <-- parseLabel(label)
+        targetClass <-- things[target]
+
+        if mult == "1":
+          fieldType <-- targetClass
+        else:
+          fieldType <-- "List<" + targetClass + ">"
+
+        fieldName <-- chooseField(relationName, targetClass, mult)
+        fields.add((fieldType, fieldName))
