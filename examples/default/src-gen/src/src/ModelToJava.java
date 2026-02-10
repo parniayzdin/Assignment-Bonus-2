@@ -1,4 +1,6 @@
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
 import javax.xml.parsers.*;
 import java.io.*;
 import java.nio.file.*;
@@ -8,9 +10,10 @@ import java.util.regex.*;
 public class ModelToJava {
     static final Pattern LABEL = Pattern.compile("^\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*\\((1|N)\\)\\s*$");
 
-    private class Edge {
+    private static class Edge{
         String src, target, kind, label;
-        Edge(String s, String t, String k, String l){
+
+        Edge(String s, String t, String k, String l) {
             src = s;
             target = t;
             kind = k;
@@ -18,30 +21,33 @@ public class ModelToJava {
         }
     }
 
-    public static String cleanText(String s){
-        if (s == null){
+    public static String cleanText(String s) {
+        if (s == null) {
             return "";
-        }else{
+        } else {
             s = s.replaceAll("<[^>]+>", ""); //Remove very basic HTML tags
             s = s.replace("&nbsp;", " ");
             return s.trim();
         }
     }
 
-    public static String toClassName(String name){
+    public static String toClassName(String name) {
         String cleaned = cleanText(name);
         String[] parts = cleaned.split("[^A-Za-z0-9]+");
         StringBuffer sb = new StringBuffer();
-        for (String p : parts){
-            if (p.isEmpty()){
+        for (String p : parts) {
+            if (p.isEmpty()) {
                 continue;
             }
             sb.append(Character.toUpperCase(p.charAt(0)));
-            if(p.length() > 1){
+            if (p.length() > 1) {
                 sb.append(p.substring(1));
             }
-            return sb.length == 0;
+            if (sb.length() == 0) {
+                return "Unnamed";
+            }
         }
+        return sb.toString();
     }
     public static String matchArrow(String style){
         if (style == null){
@@ -57,10 +63,146 @@ public class ModelToJava {
         throw new RuntimeException(message);
     }
 
-    public static void main(String[] args){
-        if (args.length != 2){
+    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
+        if (args.length != 2) {
             System.out.println("Usage: java ModelToJava <input.drawio> <outputDir>");
         }
+        String xmlFile = args[0];
+        String outDir = args[1];
+
+        //Parse the XML file
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        File file = new File(xmlFile);
+        Document doc = db.parse(file);
+        NodeList cells = doc.getElementsByTagName("mxCell");
+
+        //Identify the rectangles with text
+        Map<String, String> things = new HashMap<>();
+        for (int i = 0; i < cells.getLength(); i++) {
+            Element c = (Element) cells.item(i);
+
+            if (!"1".equals(c.getAttribute("vertex"))) {
+                continue;
+            }
+
+            String style = c.getAttribute("style");
+            if (style != null && style.contains("strokeColor = none")) {
+                continue;
+            }
+
+            String value = cleanText(c.getAttribute("value"));
+            if (value.isEmpty()) {
+                continue;
+            }
+
+            String id = c.getAttribute("id");
+            things.put(id, toClassName(value));
+
+        }
+
+        List<Edge> edges = new ArrayList<>();
+        for (int i = 0; i < cells.getLength(); i++) {
+            Element e = (Element) cells.item(i);
+
+            if (!"1".equals(e.getAttribute("edge"))) {
+                continue;
+            }
+
+            String src = e.getAttribute("source");
+            String target = e.getAttribute("target");
+            String kind = matchArrow(e.getAttribute("style"));
+            String label = cleanText(e.getAttribute("value"));
+
+            edges.add(new Edge(src, target, kind, label));
+        }
+
+        for (Edge e : edges) {
+            if ((things.get(e.src) == null) || (things.get(e.target) == null)) {
+                System.out.println("Arrow must connect Two Things");
+                return;
+            }
+            if (e.kind.equals("ASSOCIATION")) {
+                if (e.label.isEmpty()) {
+                    System.out.println("Every association must have a label like: name (1) or name (N)");
+                    return;
+                }
+                if (!LABEL.matcher(e.label).matches()) {
+                    System.out.println("Association label must match: name (1) or name (N). Found: " + e.label);
+                    return;
+                }
+            }
+        }
+        //Specialization must not be circular
+        Map<String, String> parent = new HashMap<>();
+        for (Edge e: edges){
+            if (e.kind.equals("SPECIALIZATION")){
+                parent.put(e.src, e.target);
+            }
+        }
+        for (String nodeId : things.keySet()){
+            String current = nodeId;
+            while (parent.containsKey(current)){
+                current = parent.get(current);
+                if(current.equals(nodeId)){
+                    System.out.println("Specialization must not be circular");
+                    return;
+                }
+            }
+        }
+
+        Files.createDirectories(Paths.get(outDir));
+        for (String thingId : things.keySet()){
+            String className = things.get(thingId);
+
+            //Find superclass, if any
+            String superClass = null;
+            for (Edge e: edges){
+                if (e.kind.equals("SPECIALIZATION") && e.src.equals(thingId)){
+                    superClass = things.get(e.target);
+                }
+            }
+
+            List<String> fieldLines = new ArrayList<>();
+            boolean needList = false;
+
+            for (Edge e : edges){
+                if (e.kind.equals("ASSOCIATION") && e.src.equals(thingId)){
+                    Matcher m = LABEL.matcher(e.label);
+
+                    if (!m.matches()){
+                        System.out.println("Bad association label: " + e.label + " (expected: name (1) or name (N))");
+                        return;
+                    }
+                    String relationName = m.group(1); //"has"
+                    String mult = m.group(2); //1 or N
+                    String targetClass = things.get(e.target);
+
+                    if(mult.equals("1")){
+                        fieldLines.add("  private " + targetClass + " " + relationName + ";");
+                    }else{ //mult = N
+                        needList = true;
+                        fieldLines.add("  private List<" + targetClass + "> " + relationName + " = new ArrayList<>()");
+                    }
+                }
+            }
+            StringBuffer sb = new StringBuffer();
+            if (needList){
+                sb.append("import java.util.*; \n\n");
+            }
+            sb.append("public class ").append(className);
+            if(superClass != null){
+                sb.append(" extends ").append(superClass);
+            }
+            sb.append(" {\n");
+            for (String line : fieldLines){
+                sb.append(line).append("\n");
+            }
+            sb.append("}\n");
+            String results = sb.toString();
+            Files.writeString(Paths.get(outDir, className + ".java"), results);
+        }
+        System.out.println("Generated " + things.size() + " classes into " + outDir);
     }
 
 }
