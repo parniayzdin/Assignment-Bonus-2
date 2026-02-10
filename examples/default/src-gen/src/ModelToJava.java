@@ -21,7 +21,6 @@ public class ModelToJava {
         }
     }
 
-
     public static String cleanText(String s) {
         if (s == null) {
             return "";
@@ -79,9 +78,15 @@ public class ModelToJava {
     }
 
 
+    private static String lowerFirst(String s) {
+        if (s == null || s.isEmpty()) return "field";
+        return Character.toLowerCase(s.charAt(0)) + s.substring(1);
+    }
 
-
-
+    private static String plural(String s) {
+        return s + "s";
+    }
+    
     public static void fail(String message){
         throw new RuntimeException(message);
     }
@@ -205,18 +210,25 @@ public class ModelToJava {
                         System.out.println("Bad association label: " + e.label + " (expected: name (1) or name (N))");
                         return;
                     }
-                    String relationName = m.group(1); //"has"
-                    String mult = m.group(2); //1 or N
+                    String relationName = m.group(1);
+                    String mult = m.group(2);
                     String targetClass = things.get(e.target);
 
-                    if(mult.equals("1")){
-                        fieldLines.add("  private " + targetClass + " " + relationName + ";");
-                    }else{ //mult = N
-                        needList = true;
-                        fieldLines.add("  private List<" + targetClass + "> " + relationName + " = new ArrayList<>();");
+                    String fieldName = relationName;
+                    if (relationName.equalsIgnoreCase("has")) {
+                        fieldName = lowerFirst(targetClass);
                     }
+
+                    if (mult.equals("1")) {
+                        fieldLines.add("  private " + targetClass + " " + fieldName + ";");
+                    } else {
+                        needList = true;
+                        fieldLines.add("  private List<" + targetClass + "> " + plural(fieldName) + " = new ArrayList<>();");
+                    }
+
                 }
             }
+
             StringBuffer sb = new StringBuffer();
             if (needList){
                 sb.append("import java.util.*; \n\n");
