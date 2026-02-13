@@ -8,8 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  sonarqube:
-    name: SonarQube Scan
+  sonar:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +21,20 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      - name: Compile (javac)
+        run: |
+          rm -rf out
+          mkdir -p out
+          find . \
+            -path "./.git" -prune -o \
+            -path "./out" -prune -o \
+            -path "./.scannerwork" -prune -o \
+            -name "*.java" -print0 | xargs -0 javac -d out
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
+        with:
+          args: >
+            -Dsonar.java.binaries=out
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
