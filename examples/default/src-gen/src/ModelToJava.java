@@ -86,7 +86,7 @@ public class ModelToJava {
     private static String plural(String s) {
         return s + "s";
     }
-    
+
     public static void fail(String message){
         throw new RuntimeException(message);
     }
