@@ -1,11 +1,16 @@
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
-
 import javax.xml.parsers.*;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.regex.*;
+
+/**
+ * This program is a small proof-of-concept generator that reads a draw.io XML diagram and treats
+ * labeled rectangle as a Java class. It interprets arrow as either inheritance or association with
+ * multiplicities like name (1) and name (N), then validates the model and writes one java file per class.
+ */
 
 public class ModelToJava {
     static final Pattern LABEL = Pattern.compile("^\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*\\((1|N)\\)\\s*$");
