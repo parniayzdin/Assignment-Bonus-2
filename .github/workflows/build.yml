@@ -25,12 +25,8 @@ jobs:
         run: |
           rm -rf out
           mkdir -p out
-          find . -name "*.java" \
-            ! -path "./examples/*/src-gen-output/*" \
-            ! -path "./examples/*/src-gen/*" \
-            ! -path "./examples/new/*" \
-            -print0 | xargs -0 javac -d out
-
+          find examples/default/src-gen/src -name "*.java" -print0 | xargs -0 javac -d out
+          
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v6
         with:
